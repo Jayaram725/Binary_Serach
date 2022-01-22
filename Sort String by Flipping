@@ -1,1 +1,30 @@
 
+Given a string which contains only 'x' and 'y'.
+We have to find out the the minimum number of Operations we have to do to make the string sorted.
+
+Operations are 
+1-> we can flip 'x'->'y'
+2-> we can flip 'y'->'x'
+
+Example:-
+  s = "xyxxxyxyy" => "xxxxxxxyy" 
+  For the above transformation we have to apply two operations.
+  result is 2;
+  
+ So here we have to keep track of number of y's before every index and number of x's after every index so theat we can change all y's before every index to x and all x's after
+ the index to 'y'. It doesn't matter what the char is at the current index the array will be sorted since we changed all the right x's to y and and left y's to x.
+ 
+ 
+ C++ code for this prograame is 
+ 
+ int solve(string s) {
+    int res= s.size();
+    int x_ct = 0,y_ct = 0;
+    for(auto &x:s) x_ct+=(x=='x');
+    for(auto &x:s){
+        if(x=='x') x_ct--;
+        res = min(res,x_ct+y_ct);
+        y_ct+=(x=='y');
+    }
+    return res;
+}
