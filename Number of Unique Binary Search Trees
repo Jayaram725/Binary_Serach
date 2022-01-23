@@ -1,0 +1,101 @@
+Problem:
+
+Given an integer n, return the number of unique binary search trees you can form with integers from [0, n). Mod the result by 10 ** 9 + 7.
+
+Constraints
+
+n ≤ 1,000
+Example 1
+Input
+n = 3
+Output
+5
+Explanation
+There are 5 unique trees.
+
+0
+ \
+  1
+   \
+    2
+0
+ \
+  2
+ /
+1
+    2
+   /
+  1
+ /
+0
+  2
+ /
+0
+ \
+  1
+  
+  1
+ / \
+0   2
+Solved
+
+brute force approach :-
+
+long long mod = 1e9+7;
+long long slove(long long n){
+    if(n==0) return 1;
+    if(dp[n]!=-1) return dp[n]%mod;
+    int l = 0, r = n-1;
+    long long sum = 0;
+    while(r>=0){
+        sum+=((fun(l,dp)%mod)*(fun(r,dp)%mod))%mod;
+        sum%=mod;
+        l++;
+        r--;
+    }    
+    return sum;
+}
+
+
+
+Dynamice Programming Approach:-
+
+C++ Recursive Code:
+long long mod = 1e9+7;
+long long fun(long long n,vector<long long> &dp){
+    if(n==0) return 1;
+    if(dp[n]!=-1) return dp[n]%mod;
+    int l = 0, r = n-1;
+    int sum = 0;
+    while(r>=0){
+        sum+=((fun(l,dp)%mod)*(fun(r,dp)%mod))%mod;
+        sum%=mod;
+        l++;
+        r--;
+    }    
+    return dp[n] = sum;
+}
+int solve(int n) {
+    vector<long long> dp(n+1,-1);
+    return fun(n,dp)%mod;
+}
+
+
+Iterative approach C++ code:
+
+int solve(int n){
+    vector<long long> dp(n+1,0);
+    dp[0] = 1;
+    int mod = 1e9+7;
+    for(int i=1;i<=n;i++){
+        int l = 0;
+        int r = i-1;
+        while(r>=0){
+            dp[i]+=(dp[l]*1ll*dp[r]);
+            dp[i]%=mod;
+            l++;
+            r--;
+        }
+    }
+    return dp[n];
+}
