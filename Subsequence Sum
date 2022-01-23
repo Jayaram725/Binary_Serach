@@ -1,0 +1,63 @@
+Given a list of integers nums, select a subsequence of strictly increasing numbers, where the differences of each two numbers is the same as the differences of their two indexes.
+
+Return the maximum sum of such a subsequence.
+
+Constraints:
+n ≤ 100,000 where n is the length of nums
+Input
+nums = [5, 6, 8, 8, 7, 4]
+Output:19
+
+Brute force Approach-1:
+
+Approach-1:-
+
+int solve(vector<int>& nums) {
+    This is the max_sum
+    int max_sum = 0;
+    for(int l=0;l<nums.size();l++){
+        int prev_ind = l;
+        int cur_sum = 0;
+        for(int r =l;r<nums.size();r++){
+            if(nums[r]-nums[l]==r-l){
+                cur_sum+=nums[r];
+            }
+        }
+        max_sum = max(cur_sum,max_sum);
+    }    
+    return max_sum;
+}
+
+Brute Force approach -2:
+int fun(vector<int> &nums,int cur,int prev_ind,vector<vector<int>> &dp){
+    if(cur==nums.size()) return 0;
+    int x = 0;
+    if(prev_ind!=-1&&dp[cur][prev_ind]!=-1) return dp[cur][prev_ind];
+    if((prev_ind==-1)||(nums[cur] - nums[prev_ind] == cur - prev_ind)) x = nums[cur]+fun(nums,cur+1,cur,dp);
+    int y = fun(nums,cur+1,prev_ind,dp);
+    if(prev_ind!=-1) return dp[cur][prev_ind] = max(x,y);
+    return max(x,y);
+}
+int solve(vector<int>& nums) {
+    int prev_ind = -1;
+    int cur = 0;
+    vector<vector<int>> dp(nums.size()+1,vector<int> (nums.size()+1,-1));
+    return fun(nums,cur,prev_ind,dp);
+}
+
+
+
+Optimal Approach:
+Given condition is xj - xi = j - i   =>   (xj - j == xi - i) This is the condition 
+
+int solve(vector<int> &nums){
+    // xj - xi = j - i; This is the condition so
+    // xj - j = xi - i This is the modified condition
+    unordered_map<int,int> m;
+    int maxi= 0;
+    for(int i=0;i<nums.size();i++){
+        m[nums[i] - i]+=nums[i];
+        maxi = max(maxi,m[nums[i]-i]); 
+    }
+    return maxi;
+}
