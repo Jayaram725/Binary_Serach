@@ -1,0 +1,44 @@
+Problem statement:
+Given a list of integers nums, return the maximum length of a contiguous strictly increasing sublist if you can remove one or zero elements from the list.
+
+Constraints:
+n ≤ 100,000 where n is the length of nums
+
+Example 1:
+Input:
+nums = [30, 1, 2, 3, 4, 5, 8, 7, 22]
+Output:
+7
+
+Explanation:
+If you remove 8 in the list you can get [1, 2, 3, 4, 5, 7, 22] which is the longest, contiguous, strictly increasing list.
+
+
+Time Complexity: O(N)
+Space Complexity:O(N)
+
+C++ Code:
+
+int solve(vector<int>& nums) {
+    int n = nums.size();
+    if(n<2) return n;
+    vector<int> a(n),b(n);
+    for(int i=0;i<n;i++){
+        if(i!=0&&nums[i-1]<nums[i]) a[i] = a[i-1]+1;
+        else a[i] = 1;
+    }
+    for(int i = n-1;i>=0;i--){
+        if(i!=n-1&&nums[i]<nums[i+1]) b[i] = b[i+1]+1;
+        else b[i] = 1;
+    }
+    int maxi = 1;
+    for(int i=0;i<n;i++){
+        int x=0,y = 0;
+        if(i!=0) x = a[i-1];
+        if(i!=n-1) y = b[i+1];
+        maxi = max(maxi,a[i]);
+        maxi = max(maxi,b[i]);
+        if(i!=0&&i!=n-1&&nums[i-1]<nums[i+1]) maxi = max(maxi,x+y);
+    }
+    return maxi;
+}
