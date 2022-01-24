@@ -1,0 +1,19 @@
+
+
+
+// 1hr => 30 degree
+// 60 min => 30 degree
+// x  =>  ?
+// ? = x*(30/60)
+// ? = x/2.0;
+
+C++ code:
+
+int solve(int hour, int minutes) {
+    hour%=12;
+    double a = hour*30 + (minutes)/2.0;
+    double b = 6*minutes;
+    double x = abs(a-b);
+    return min(x,360-x);
+}
+
