@@ -1,0 +1,39 @@
+Given a singly linked list node, and an integer k, reverse every k contiguous group of nodes.
+
+Constraints
+
+n ≤ 100,000 where n is the number of nodes in node
+
+Example:-1
+Input:
+node = 0->1->2->3
+k = 2
+
+Output
+1->0->3->2
+
+Example:-2
+Input:
+node= 0->1->2->3
+k = 3
+Output
+2->1->0->3
+
+
+C++ code:
+LLNode* solve(LLNode* node, int k) {
+    if(!node) return node;
+    LLNode* prev = NULL;
+    auto cur = node;
+    int l = k;
+    while(cur&&l--){
+        auto temp = cur->next;
+        temp = cur->next;
+        cur->next = prev;
+        prev = cur;
+        cur = temp;
+    }
+    node->next = cur;
+    node->next = solve(cur,k);
+    return prev;
+}
