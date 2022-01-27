@@ -1,0 +1,67 @@
+Given a string and a set of delimiters, reverse the words in the string while maintaining the relative order of the delimiters.
+
+Example 1
+Input
+sentence = "hello/world:here"
+delimiters = ["/", ":"]
+
+Solution:
+
+
+Intuition
+Here first we will separate the words and delimiters first we will store the words seperately and we will maintain another list in which we will maintainpositioning of words 
+and delimiters in the original sentence. A empty string represents there should be a word which should be reversed from the main string.
+
+Implementation
+we will maintain a set of string which has delimiters we will separate the words and delimiters in list "res" and the words are stored in list "words" .
+Then we will iterate through res if we find a empty string there we have to add the word from words end since we have to reverse the words.
+
+Example #1
+sentence = "hello/world:here"
+delimiters = ["/", ":"]
+words = ["hello","World","here"]
+res = ["" , "/" , "" , ":" , ""];
+str = "here" + "/" + "World"+":"+"hello"
+str = "here/World:hello"
+
+Time Complexity
+Time complexity of this Algorithm is\mathcal{O}(n)O(n)
+
+Space Complexity
+Space complexity of this Algorith is \mathcal{O}(n)O(n)
+
+C++ Code:
+
+string solve(string sentence, vector<string> &delimiters) {
+    unordered_set<string> s(delimiters.begin(), delimiters.end());
+    string str;
+    vector<string> words;
+    vector<string> res;
+    for (auto &x : sentence) {
+        string temp;
+        temp += x;
+        if (s.find(temp) != s.end()) {
+            if (!str.empty()) {
+                words.push_back(str);
+                res.push_back("");
+                res.push_back(temp);
+                str.clear();
+            } else
+                res.push_back(temp);
+        } else
+            str += x;
+    }
+    if (!str.empty()) {
+        words.push_back(str);
+        res.push_back("");
+    }
+    str.clear();
+    for (auto &x : res) {
+        if (x.empty()) {
+            str += words.back();
+            words.pop_back();
+        } else
+            str += x;
+    }
+    return str;
+}
