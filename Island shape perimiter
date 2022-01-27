@@ -1,0 +1,39 @@
+Given a two-dimensional integer matrix of 1s and 0s where 0 represents empty cell and 1 represents a block that forms a shape, return the perimeter of the shape. There is guaranteed to be exactly one shape, and the shape has no holes in it.
+
+Constraints
+
+1 ≤ n, m ≤ 250 where n and m are the number of rows and columns in matrix
+Example 1
+Input
+matrix = [
+    [0, 1, 1],
+    [0, 1, 0]
+]
+Output
+8
+
+
+C++ Code:
+
+// See the leet code island perimiter That will be esier to understand
+int solve(vector<vector<int>>& matrix) {
+    int m = matrix.size() , n = matrix[0].size();
+    auto inside = [&](int a,int b){
+        return a>=0&&a<m&&b>=0&&b<n;
+    };
+    vector<pair<int,int>> directions = {{1,0},{-1,0},{0,1},{0,-1}};
+    int ct=0;
+    for(int i=0;i<m;i++){
+        for(int j=0;j<n;j++){
+            if(matrix[i][j]){
+                for(auto &dir:directions){
+                    int x1=i+dir.first , y1 = j + dir.second;
+                    if(!inside(x1,y1)||matrix[x1][y1]==0){
+                        ct++;
+                    }
+                }
+            }
+        }
+    }
+    return ct;
+}x
