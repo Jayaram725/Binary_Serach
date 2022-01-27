@@ -1,0 +1,26 @@
+Given a binary tree root, remove all nodes with only one child.
+
+Constraints
+
+n ≤ 100,000 where n is the number of nodes in root
+Example 1
+
+C++ Code:
+
+
+Tree* solve(Tree* root) {
+    if(!root) return NULL;
+    
+    auto x = solve(root->left);
+    auto y = solve(root->right);
+
+    if(x&&y){
+        root->left = x;
+        root->right = y;
+        return root;
+    }else if(!x&&!y) return root;
+    else if(x){
+       return x;
+    }
+    return y;
+}
